@@ -52,8 +52,8 @@ show_towns_btn.addEventListener('click', () => {
         const sortingByPopulation = data.sort((a, b) => b.population - a.population);
         const options = sortingByPopulation.map(department =>
           `<tr scope="row">
-          <th>${department.nom}</th>
-          <th>${department.population}</th>
+          <td>${department.nom}</td>
+          <td>${department.population}</td>
         </tr>`
         ).join('');
 
@@ -62,3 +62,36 @@ show_towns_btn.addEventListener('click', () => {
       .catch(error => console.error('Erreur:', error));
   }
 })
+
+/*--------------------------------------------------*/
+/*Afficher sa ville*/
+
+const show_ur_city_btn = document.querySelector("#show_ur_city");
+
+show_ur_city_btn.addEventListener('click', () => {
+
+  function success(pos) {
+    const crd = pos.coords;
+    const map = L.map('map').setView([crd.latitude, crd.longitude], 12);
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+    fetch(baseUrl + "communes/?lat=" + crd.latitude + "&lon=" + crd.longitude + "&fields=nom,contour")
+      .then(response => response.json())
+      .then(data => {
+        const geojsonFeature = {
+          "type": "Feature",
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": data[0].contour.coordinates
+          }
+        };
+
+        L.geoJSON(geojsonFeature, { style: { color: 'red' } }).addTo(map);
+      })
+      .catch(error => console.error('Erreur:', error));
+  }
+
+  navigator.geolocation.getCurrentPosition(success);
+});

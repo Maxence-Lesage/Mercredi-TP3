@@ -7,6 +7,10 @@
   <title>Document</title>
   <link rel="stylesheet" href="style.css">
   <script type="module" src="main.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 </head>
 
 <body>
@@ -16,12 +20,17 @@
     <label for="select_department">Choix du département :</label>
     <select name="select_department" id="select_department"></select>
     <input id="show_towns" type="button" value="Afficher les communes">
+    <input id="show_ur_city" type="button" value="Afficher sa ville">
   </form>
 
-  <table>
+  <div id="map"></div>
+
+  <table class="town_table">
     <thead>
-      <th>Nom de la ville</th>
-      <th>Nombre d'habitant</th>
+      <tr>
+        <th>Nom de la ville</th>
+        <th>Nombre d'habitant</th>
+      </tr>
     </thead>
     <tbody>
 
